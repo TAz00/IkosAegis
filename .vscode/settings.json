@@ -1,0 +1,18 @@
+{
+    "dotnet.server.useOmnisharp": true,
+    "omnisharp.useModernNet": true,
+    "cSpell.ignoreWords": [
+        "Persistant"
+    ],
+    "cSpell.words": [
+        "aegis",
+        "behaviour",
+        "ikos",
+        "kerbal",
+        "kerbals",
+        "Kerbin",
+        "keypad",
+        "modulemanager",
+        "tweakables"
+    ]
+}

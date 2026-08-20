@@ -1,0 +1,12 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Attach to KSP",
+      "type": "vstuc",
+      "request": "attach",
+      "endPoint": "127.0.0.1:56858",
+      "logFile": "C:\\Projects\\KSP\\Kerbal Space Program Dev\\vstu_debug.log"
+    }
+  ]
+}

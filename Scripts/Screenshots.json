@@ -1,0 +1,66 @@
+{
+    "//": "Shots for Watch-Screenshots.ps1. Every `pattern` was checked against an AegisLog call that actually exists at Info level or above - a shot whose marker is only logged at Debug will never fire, because AegisLog.Level defaults to Info.",
+
+    "processNames": [ "KSP_x64", "ksp_x64_dbg" ],
+    "logPath": "C:\\Projects\\KSP\\Kerbal Space Program Dev\\KSP.log",
+    "outputDir": "Docs\\img\\auto",
+
+    "shots": [
+        {
+            "id": "recovery-keypad",
+            "caption": "The keypad asking for a PIN before a locked craft may be recovered",
+            "pattern": "\\[IkosAegis\\]\\[INFO\\] Refused recovery of locked vessel",
+            "delayMs": 900,
+            "requires": "Lock a craft and land it AWAY from the KSC (or select it in the Tracking Station), then press Recover. The keypad titled 'Aegis PIN - authorise recovery' should be on screen."
+        },
+        {
+            "id": "recovery-authorised",
+            "caption": "The 'press Recover again' toast after a correct PIN",
+            "pattern": "\\[IkosAegis\\]\\[INFO\\] Recovery authorised for .* on a correct PIN\\.",
+            "delayMs": 500,
+            "requires": "In the recovery keypad above, enter the CORRECT PIN. Toast appears at upper centre for 6s."
+        },
+        {
+            "id": "recovery-denied",
+            "caption": "A wrong PIN refusing a recovery",
+            "pattern": "\\[IkosAegis\\]\\[INFO\\] Recovery PIN rejected for",
+            "delayMs": 500,
+            "requires": "In the recovery keypad, enter a WRONG PIN."
+        },
+        {
+            "id": "eva-refused",
+            "caption": "Crew refused EVA from a locked craft",
+            "pattern": "\\[IkosAegis\\]\\[INFO\\] Refused an EVA from locked vessel",
+            "delayMs": 500,
+            "requires": "Lock a CREWED craft, then try to send a Kerbal on EVA (portrait EVA button, or the hatch menu)."
+        },
+        {
+            "id": "docking-blocked",
+            "caption": "Docking ports disabled on a locked craft",
+            "pattern": "\\[IkosAegis\\]\\[INFO\\] Disabled \\d+ docking port\\(s\\) on ",
+            "delayMs": 700,
+            "requires": "Lock a craft that HAS at least one docking port, with the port's part menu open so the disabled state is visible."
+        },
+        {
+            "id": "wrong-pin-lockout",
+            "caption": "The keypad locked out after repeated wrong codes",
+            "pattern": "\\[IkosAegis\\]\\[INFO\\] Rejected a PIN on .*keypad disabled for",
+            "delayMs": 400,
+            "requires": "Enter a WRONG PIN three times in a row on the same craft. The third refusal adds 'Keypad disabled for 30s.'"
+        },
+        {
+            "id": "lock-no-pin",
+            "caption": "Refusing to lock a craft that has no PIN set",
+            "pattern": "\\[IkosAegis\\]\\[INFO\\] Refused to lock .*: no PIN is set\\.",
+            "delayMs": 400,
+            "requires": "On a fresh craft with 'Aegis: No PIN set', press Engage Aegis Lock without setting a code first."
+        },
+        {
+            "id": "foreign-pin",
+            "caption": "A craft whose PIN was set by another player or on another machine",
+            "pattern": "\\[IkosAegis\\]\\[INFO\\] Refused to (unlock|lock|change the PIN on) .*not written by this machine",
+            "delayMs": 500,
+            "requires": "NEEDS A SECOND WINDOWS USER ACCOUNT OR MACHINE. Lock a craft as user A, log in as user B, load the same save and press Disengage Aegis Lock. Skip this one if that is not practical."
+        }
+    ]
+}

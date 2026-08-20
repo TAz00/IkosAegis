@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Unit tests for the parts of IkosAegis that are pure logic.
+
+    Deliberately NOT a test of the mod as a whole. Anything touching a KSP or Unity type
+    needs the game running - the assemblies under test here must not drag UnityEngine in,
+    which is exactly why Source\Logic exists as a separate layer.
+
+    What this covers is the layer where a silent wrong answer is possible: PIN validity,
+    comparison and masking, and the lockout arithmetic. Loading a save and clicking a keypad
+    is a miserable way to discover that "007" and "7" compare equal.
+
+    net472 to match the mod, so the same assemblies load.
+  -->
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <LangVersion>7.3</LangVersion>
+    <IsPackable>false</IsPackable>
+    <AssemblyName>IkosAegis.Tests</AssemblyName>
+    <RootNamespace>IkosAegis.Tests</RootNamespace>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="NUnit" Version="3.14.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IkosAegis.csproj" />
+  </ItemGroup>
+
+</Project>

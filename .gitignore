@@ -1,0 +1,17 @@
+bin/
+obj/
+dist/
+*.user
+vstu_debug.log
+
+# 0Harmony.dll is referenced from the dev KSP install's GameData/000_Harmony, where the
+# Harmony2 package puts it. Never committed and never shipped - see IkosAegis.netkan.
+Lib/
+
+# Deployed build output; the patches under GameData/IkosAegis/Patches ARE source and stay.
+GameData/IkosAegis/Plugins/
+GameData/IkosAegis/Debug/
+
+# Auto-captured screenshots and their manifest ARE committed - the manifest is what
+# stops the watcher re-taking a shot on another machine or a later deploy.
+!Docs/img/auto/

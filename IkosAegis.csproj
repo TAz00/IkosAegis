@@ -1,0 +1,103 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <AssemblyName>IkosAegis</AssemblyName>
+    <RootNamespace>IkosAegis</RootNamespace>
+    <OutputType>Library</OutputType>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <LangVersion>7.3</LangVersion>
+    <Nullable>disable</Nullable>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <!--
+      GameData holds deployed output and config files, never sources.
+      Tests is its own project; an SDK-style project globs every .cs beneath it, so without
+      this the mod tries to compile the test sources (and their obj\ AssemblyInfo) into
+      itself, which fails on a missing NUnit reference and duplicate assembly attributes.
+    -->
+    <DefaultItemExcludes>$(DefaultItemExcludes);GameData\**;Tests\**</DefaultItemExcludes>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <KspRoot>C:\Projects\KSP\Kerbal Space Program Dev\</KspRoot>
+    <KspManaged>$(KspRoot)KSP_x64_Data\Managed\</KspManaged>
+    <!--
+      Harmony is referenced from the dev install's own GameData, exactly where the Harmony2
+      CKAN package puts it, so a developer who has the dependency installed needs no extra
+      step and the repo carries no third-party binary. Install Harmony into the dev KSP if
+      this path does not resolve.
+    -->
+    <HarmonyDll>$(KspRoot)GameData\000_Harmony\0Harmony.dll</HarmonyDll>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!--
+      Harmony, for the recovery guard only — KSP offers no veto on vessel recovery and three
+      separate UI paths each do the job inline, so prefix patches are the only way to refuse.
+      NOT copied to output and NOT redistributed: the convention is that mods depend on the
+      HarmonyKSP package, which installs GameData/000_Harmony/0Harmony.dll once for everyone.
+    -->
+    <Reference Include="0Harmony">
+      <HintPath>$(HarmonyDll)</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(KspManaged)Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>$(KspManaged)UnityEngine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(KspManaged)UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.AudioModule">
+      <HintPath>$(KspManaged)UnityEngine.AudioModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <!-- DialogGUI* layouts take a TextAnchor, which lives in the TextRendering module -->
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>$(KspManaged)UnityEngine.TextRenderingModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <!-- PopupDialog / DialogGUIBase signatures reach into uGUI -->
+    <Reference Include="UnityEngine.UIModule">
+      <HintPath>$(KspManaged)UnityEngine.UIModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>$(KspManaged)UnityEngine.IMGUIModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <!-- AddModApplication's signature mentions Animator; pulled in transitively by KSP.UI -->
+    <Reference Include="UnityEngine.AnimationModule">
+      <HintPath>$(KspManaged)UnityEngine.AnimationModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>$(KspManaged)UnityEngine.PhysicsModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+
+</Project>
